@@ -1,0 +1,61 @@
+﻿using FullStackTest.Application.Services;
+using FullStackTest.Domain.Entities.Domain.Entities;
+using Microsoft.AspNetCore.Mvc;
+
+namespace FullStackTest.WebAPI.Controllers
+{
+    [ApiController]
+    [Route("api/[controller]")]
+    public class BusinessPartnerController : ControllerBase
+    {
+        private readonly BusinessPartnerService _service;
+
+        public BusinessPartnerController(BusinessPartnerService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var result = await _service.GetAllAsync();
+            return Ok(result);
+        }
+
+        [HttpGet("{cardCode}")]
+        public async Task<IActionResult> GetById(string cardCode)
+        {
+            var result = await _service.GetByIdAsync(cardCode);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Add(BusinessPartner businessPartner)
+        {
+            if (businessPartner == null || string.IsNullOrEmpty(businessPartner.CardCode))
+                return BadRequest("Invalid business partner data.");
+
+            await _service.AddAsync(businessPartner);
+            return CreatedAtAction(nameof(GetById), new { cardCode = businessPartner.CardCode }, businessPartner);
+        }
+
+
+        [HttpPatch("{cardCode}")]
+        public async Task<IActionResult> UpdateCardName(string cardCode, [FromBody] string cardName)
+        {
+            if (string.IsNullOrEmpty(cardName))
+                return BadRequest("CardName cannot be null or empty.");
+
+            await _service.UpdateCardNameAsync(cardCode, cardName);
+            return NoContent();
+        } 
+
+        [HttpDelete("{cardCode}")]
+        public async Task<IActionResult> Delete(string cardCode)
+        {
+            await _service.DeleteAsync(cardCode);
+            return NoContent();
+        }
+    }
+}
+
