@@ -12,6 +12,11 @@ namespace FullStackTest.Application.Services
             _repository = repository;
         }
 
+        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllPaginatedAsync(int page, int pageSize, string filter)
+        {
+            return await _repository.GetAllPaginatedAsync(page, pageSize, filter);
+        }
+
         public async Task<IEnumerable<BusinessPartner>> GetAllAsync()
         {
             return await _repository.GetAllAsync();

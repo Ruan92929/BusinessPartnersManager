@@ -16,6 +16,13 @@ namespace FullStackTest.WebAPI.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetAllPaginated(int page = 1, int pageSize = 5, string filter = "")
+        {
+            var (businessPartners, totalCount) = await _service.GetAllPaginatedAsync(page, pageSize, filter);
+            return Ok(new { data = businessPartners, totalCount });
+        }
+
+        [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
         {
             var result = await _service.GetAllAsync();

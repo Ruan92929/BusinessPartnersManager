@@ -21,6 +21,32 @@ namespace FullStackTest.Infrastructure.Repositories
             return await response.Content.ReadFromJsonAsync<IEnumerable<BusinessPartner>>();
         }
 
+        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllPaginatedAsync(int page, int pageSize, string filter)
+        {
+            var response = await _httpClient.GetAsync("BusinessPartners");
+            response.EnsureSuccessStatusCode();
+            var businessPartners = await response.Content.ReadFromJsonAsync<IEnumerable<BusinessPartner>>();
+
+            if (!string.IsNullOrEmpty(filter))
+            {
+                businessPartners = businessPartners
+                    .Where(bp => bp.CardCode.Contains(filter) ||
+                                 bp.CardName.Contains(filter) ||
+                                 bp.City.Contains(filter) ||
+                                 bp.Country.Contains(filter));
+            }
+
+            var totalCount = businessPartners.Count();
+
+            var paginatedResult = businessPartners
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            return (paginatedResult, totalCount);
+        }
+
+
         public async Task<BusinessPartner> GetByIdAsync(string cardCode)
         {
             var response = await _httpClient.GetAsync($"BusinessPartners/{cardCode}");
