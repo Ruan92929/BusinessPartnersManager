@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, TextField, Button, InputAdornment, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import debounce from "lodash.debounce"; // Importando debounce
+import debounce from "lodash.debounce"; 
 
 import BusinessPartnerList from "../components/BusinessPartnerList";
 import BusinessPartnerForm from "../components/BusinessPartnerForm";
@@ -31,25 +31,25 @@ const BusinessPartnerPage = () => {
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
-    debouncedSearch(event.target.value); // Chama o debounce para realizar a pesquisa
+    debouncedSearch(event.target.value); 
   };
 
   const debouncedSearch = debounce(async (query) => {
     if (query === "") {
-      setBusinessPartners([]); // Se a busca estiver vazia, limpar a lista
+      setBusinessPartners([]); 
       return;
     }
 
     setLoading(true);
     try {
-      const data = await getBusinessPartners(1, 10, query); // Pesquisar com a query
+      const data = await getBusinessPartners(1, 10, query);
       setBusinessPartners(data.data);
     } catch (error) {
       console.error("Erro ao carregar parceiros de negócios", error);
     } finally {
       setLoading(false);
     }
-  }, 500); // Debounce de 500ms
+  }, 500); 
 
   return (
     <Box sx={{ margin: "0 auto", padding: 4, maxWidth: "1200px" }}>
@@ -93,8 +93,8 @@ const BusinessPartnerPage = () => {
 
       <BusinessPartnerList
         onEdit={handleEditClick}
-        partners={businessPartners} // Passe os partners filtrados para o componente
-        loading={loading} // Passando a flag de loading
+        partners={businessPartners}
+        loading={loading} 
       />
 
       {isOpenForm && (

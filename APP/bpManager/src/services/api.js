@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const api = axios.create({
   baseURL: 'https://localhost:7178/api',
-  headers: { 'Content-Type': 'application/json' }, // Cabeçalho configurado globalmente
+  headers: { 'Content-Type': 'application/json' }, 
 });
 
 export const getBusinessPartners = async (page = 1, pageSize = 10, filter = "") => {

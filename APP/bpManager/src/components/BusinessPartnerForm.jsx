@@ -13,7 +13,7 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
   useEffect(() => {
     if (partner) {
       setFormData({
-        cardCode: partner.cardCode, // Esse campo será preenchido se for edição
+        cardCode: partner.cardCode, 
         cardName: partner.cardName,
         city: partner.city,
         country: partner.country,
@@ -30,9 +30,9 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
     e.preventDefault();
     try {
       if (partner) {
-        await updateBusinessPartner(partner.cardCode, formData.cardName); // Atualizando com o cardCode
+        await updateBusinessPartner(partner.cardCode, formData.cardName); 
       } else {
-        await createBusinessPartner(formData); // Criando com dados sem cardCode (será gerado automaticamente)
+        await createBusinessPartner(formData); 
       }
       onClose();  
     } catch (error) {
@@ -71,7 +71,7 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
-          disabled={!!partner} // Desabilita se estiver editando
+          disabled={!!partner} 
         />
         <TextField
           label="País"
@@ -80,7 +80,7 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
-          disabled={!!partner} // Desabilita se estiver editando
+          disabled={!!partner} 
 
         />
       </DialogContent>
