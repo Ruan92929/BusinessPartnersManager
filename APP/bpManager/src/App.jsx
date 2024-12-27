@@ -1,9 +1,9 @@
-import BusinessPartnerList from "./pages/BusinessPartner"
+import BusinessPartnerPage from "./pages/BusinessPartnerPage"
 
 function App() {
   return (
     <>
-    <BusinessPartnerList/>
+    <BusinessPartnerPage/>
     </>
   )
 }

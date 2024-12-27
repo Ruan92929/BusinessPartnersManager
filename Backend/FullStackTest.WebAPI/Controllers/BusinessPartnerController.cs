@@ -39,9 +39,6 @@ namespace FullStackTest.WebAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(BusinessPartner businessPartner)
         {
-            if (businessPartner == null || string.IsNullOrEmpty(businessPartner.CardCode))
-                return BadRequest("Invalid business partner data.");
-
             await _service.AddAsync(businessPartner);
             return CreatedAtAction(nameof(GetById), new { cardCode = businessPartner.CardCode }, businessPartner);
         }
