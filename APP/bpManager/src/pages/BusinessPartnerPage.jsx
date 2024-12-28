@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, TextField, Button, InputAdornment, Typography } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import debounce from "lodash.debounce"; 
 
 import BusinessPartnerList from "../components/BusinessPartnerList";
 import BusinessPartnerForm from "../components/BusinessPartnerForm";
-import { getBusinessPartners } from "../services/api";
 
 const BusinessPartnerPage = () => {
   const [selectedPartner, setSelectedPartner] = useState(null);
