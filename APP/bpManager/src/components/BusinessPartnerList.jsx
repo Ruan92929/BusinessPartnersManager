@@ -12,7 +12,7 @@ const columns = [
   { id: 'country', label: 'País' },
 ];
 
-const BusinessPartnerList = ({ onEdit }) => {
+const BusinessPartnerList = ({ onEdit, refresh }) => {
   const [businessPartners, setBusinessPartners] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(0);
@@ -35,7 +35,7 @@ const BusinessPartnerList = ({ onEdit }) => {
     };
 
     fetchBusinessPartners();
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, refresh]);
 
   const handleChangePage = (event, newPage) => setPage(newPage);
   const handleChangeRowsPerPage = (event) => setRowsPerPage(+event.target.value);
@@ -55,46 +55,44 @@ const BusinessPartnerList = ({ onEdit }) => {
     <Box sx={{ margin: "0 auto", padding: 4, maxWidth: "1250px" }}>
       {}
       <TableContainer className="table-container">
-        <Table>
-          <TableHead>
-            <TableRow>
-              {columns.map((column) => (
-                <TableCell key={column.id}>{column.label}</TableCell>
-              ))}
-              <TableCell>Ações</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {businessPartners && businessPartners.length > 0 ? (
-              businessPartners.map((partner) => (
-                <TableRow hover key={partner.cardCode}>
-                  <TableCell>{partner.cardCode}</TableCell>
-                  <TableCell>{partner.cardName}</TableCell>
-                  <TableCell>{partner.city}</TableCell>
-                  <TableCell>{partner.country}</TableCell>
-                  <TableCell>
-                    {}
-                    <IconButton color="primary" onClick={() => onEdit(partner)}>
-                      <EditIcon />
-                    </IconButton>
+  <Table>
+    <TableHead>
+      <TableRow>
+        {columns.map((column) => (
+          <TableCell key={column.id}>{column.label}</TableCell>
+        ))}
+        <TableCell>Ações</TableCell>
+      </TableRow>
+    </TableHead>
+    <TableBody>
+      {businessPartners && businessPartners.length > 0 ? (
+        businessPartners.map((partner) => (
+          <TableRow hover key={partner.cardCode}>
+            <TableCell>{partner.cardCode}</TableCell>
+            <TableCell>{partner.cardName}</TableCell>
+            <TableCell>{partner.city}</TableCell>
+            <TableCell>{partner.country}</TableCell>
+            <TableCell>
+              <IconButton color="primary" onClick={() => onEdit(partner)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton color="error" onClick={() => handleDelete(partner.cardCode)}>
+                <DeleteIcon />
+              </IconButton>
+            </TableCell>
+          </TableRow>
+        ))
+      ) : (
+        <TableRow>
+          <TableCell colSpan={columns.length + 1} align="center" className="empty-message">
+            Nenhum parceiro encontrado.
+          </TableCell>
+        </TableRow>
+      )}
+    </TableBody>
+  </Table>
+</TableContainer>
 
-                    {}
-                    <IconButton color="error" onClick={() => handleDelete(partner.cardCode)}>
-                      <DeleteIcon />
-                    </IconButton>
-                  </TableCell>
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length + 1} align="center" className="empty-message">
-                  Nenhum parceiro encontrado.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </TableContainer>
 
       {}
       <Box display="flex" justifyContent="center" alignItems="center" p={2}>

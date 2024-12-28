@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { TextField, Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material"; 
 import { createBusinessPartner, updateBusinessPartner } from "../services/api";  
 
-const BusinessPartnerForm = ({ partner, onClose }) => {
+const BusinessPartnerForm = ({ partner, onClose, onSave }) => {
   const [formData, setFormData] = useState({
     cardCode: "",
     cardName: "",
@@ -13,7 +13,7 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
   useEffect(() => {
     if (partner) {
       setFormData({
-        cardCode: partner.cardCode, 
+        cardCode: partner.cardCode,
         cardName: partner.cardName,
         city: partner.city,
         country: partner.country,
@@ -30,13 +30,15 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
     e.preventDefault();
     try {
       if (partner) {
-        await updateBusinessPartner(partner.cardCode, formData.cardName); 
+        await updateBusinessPartner(partner.cardCode, formData.cardName);
       } else {
-        await createBusinessPartner(formData); 
+        await createBusinessPartner(formData);
       }
-      onClose();  
+      onSave();
+      onClose(true);
     } catch (error) {
       console.error("Erro ao salvar parceiro de negócios", error);
+      onClose();
     }
   };
 
@@ -44,18 +46,6 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
     <Dialog open={true} onClose={onClose}>
       <DialogTitle>{partner ? "Editar parceiro" : "Criar novo parceiro"}</DialogTitle>
       <DialogContent>
-        {}
-        {partner && (
-          <TextField
-            label="Código"
-            name="cardCode"
-            value={formData.cardCode}
-            onChange={handleChange}
-            fullWidth
-            margin="normal"
-            disabled 
-          />
-        )}
         <TextField
           label="Nome"
           name="cardName"
@@ -71,7 +61,6 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
-          disabled={!!partner} 
         />
         <TextField
           label="País"
@@ -80,17 +69,11 @@ const BusinessPartnerForm = ({ partner, onClose }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
-          disabled={!!partner} 
-
         />
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose} color="primary">
-          Cancelar
-        </Button>
-        <Button onClick={handleSubmit} color="primary">
-          {partner ? "Salvar" : "Criar"}
-        </Button>
+        <Button onClick={onClose} color="primary">Cancelar</Button>
+        <Button onClick={handleSubmit} color="primary">{partner ? "Salvar" : "Criar"}</Button>
       </DialogActions>
     </Dialog>
   );

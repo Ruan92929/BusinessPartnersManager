@@ -1,4 +1,6 @@
-﻿using FullStackTest.Domain.Entities.Domain.Entities;
+﻿using FluentValidation;
+using FullStackTest.Application.Validators;
+using FullStackTest.Domain.Entities.Domain.Entities;
 using FullStackTest.Domain.Interfaces;
 
 namespace FullStackTest.Application.Services
@@ -12,14 +14,9 @@ namespace FullStackTest.Application.Services
             _repository = repository;
         }
 
-        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllPaginatedAsync(int page, int pageSize, string filter)
+        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllAsync(int page, int pageSize, string filter)
         {
-            return await _repository.GetAllPaginatedAsync(page, pageSize, filter);
-        }
-
-        public async Task<IEnumerable<BusinessPartner>> GetAllAsync()
-        {
-            return await _repository.GetAllAsync();
+            return await _repository.GetAllAsync(page, pageSize, filter);
         }
 
         public async Task<BusinessPartner> GetByIdAsync(string cardCode)
@@ -29,11 +26,23 @@ namespace FullStackTest.Application.Services
 
         public async Task AddAsync(BusinessPartner businessPartner)
         {
+            var validationResult = await new BusinessPartnerValidator().ValidateAsync(businessPartner);
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             await _repository.AddAsync(businessPartner);
         }
 
         public async Task UpdateCardNameAsync(string cardCode, string cardName)
         {
+            var validationResult = new UpdateCardNameValidator().Validate((cardCode, cardName));
+            if (!validationResult.IsValid)
+            {
+                throw new ValidationException(validationResult.Errors);
+            }
+
             await _repository.UpdateAsync(cardCode, cardName);
         }
 

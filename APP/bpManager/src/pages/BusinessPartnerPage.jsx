@@ -13,6 +13,31 @@ const BusinessPartnerPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [businessPartners, setBusinessPartners] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
+
+  const fetchBusinessPartners = async (query = "") => {
+    setLoading(true);
+    try {
+      const data = await getBusinessPartners(1, 10, query);
+      setBusinessPartners(data.data);
+    } catch (error) {
+      console.error("Erro ao carregar parceiros de negócios", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      setBusinessPartners([]);  
+    } else {
+      debouncedSearch(searchQuery); 
+    }
+  }, [searchQuery]);
+
+  const debouncedSearch = debounce(async (query) => {
+    await fetchBusinessPartners(query);
+  }, 500); 
 
   const handleCreateClick = () => {
     setSelectedPartner(null);
@@ -27,29 +52,12 @@ const BusinessPartnerPage = () => {
   const handleCloseForm = () => {
     setIsOpenForm(false);
     setSelectedPartner(null);
+    setRefresh(!refresh);
   };
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
-    debouncedSearch(event.target.value); 
   };
-
-  const debouncedSearch = debounce(async (query) => {
-    if (query === "") {
-      setBusinessPartners([]); 
-      return;
-    }
-
-    setLoading(true);
-    try {
-      const data = await getBusinessPartners(1, 10, query);
-      setBusinessPartners(data.data);
-    } catch (error) {
-      console.error("Erro ao carregar parceiros de negócios", error);
-    } finally {
-      setLoading(false);
-    }
-  }, 500); 
 
   return (
     <Box sx={{ margin: "0 auto", padding: 4, maxWidth: "1200px" }}>
@@ -95,6 +103,7 @@ const BusinessPartnerPage = () => {
         onEdit={handleEditClick}
         partners={businessPartners}
         loading={loading} 
+        refresh={refresh}
       />
 
       {isOpenForm && (

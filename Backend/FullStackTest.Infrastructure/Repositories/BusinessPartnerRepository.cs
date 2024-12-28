@@ -14,14 +14,7 @@ namespace FullStackTest.Infrastructure.Repositories
             _httpClient = httpClient;
         }
 
-        public async Task<IEnumerable<BusinessPartner>> GetAllAsync()
-        {
-            var response = await _httpClient.GetAsync("BusinessPartners");
-            response.EnsureSuccessStatusCode();
-            return await response.Content.ReadFromJsonAsync<IEnumerable<BusinessPartner>>();
-        }
-
-        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllPaginatedAsync(int page, int pageSize, string filter)
+        public async Task<(IEnumerable<BusinessPartner> Data, int TotalCount)> GetAllAsync(int page, int pageSize, string filter)
         {
             var response = await _httpClient.GetAsync("BusinessPartners");
             response.EnsureSuccessStatusCode();
