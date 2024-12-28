@@ -11,33 +11,7 @@ const BusinessPartnerPage = () => {
   const [selectedPartner, setSelectedPartner] = useState(null);
   const [isOpenForm, setIsOpenForm] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [businessPartners, setBusinessPartners] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [refresh, setRefresh] = useState(false);
-
-  const fetchBusinessPartners = async (query = "") => {
-    setLoading(true);
-    try {
-      const data = await getBusinessPartners(1, 10, query);
-      setBusinessPartners(data.data);
-    } catch (error) {
-      console.error("Erro ao carregar parceiros de negócios", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    if (searchQuery === "") {
-      setBusinessPartners([]);  
-    } else {
-      debouncedSearch(searchQuery); 
-    }
-  }, [searchQuery]);
-
-  const debouncedSearch = debounce(async (query) => {
-    await fetchBusinessPartners(query);
-  }, 500); 
 
   const handleCreateClick = () => {
     setSelectedPartner(null);
@@ -101,8 +75,7 @@ const BusinessPartnerPage = () => {
 
       <BusinessPartnerList
         onEdit={handleEditClick}
-        partners={businessPartners}
-        loading={loading} 
+        searchQuery={searchQuery}
         refresh={refresh}
       />
 

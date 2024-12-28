@@ -23,10 +23,10 @@ namespace FullStackTest.Infrastructure.Repositories
             if (!string.IsNullOrEmpty(filter))
             {
                 businessPartners = businessPartners
-                    .Where(bp => bp.CardCode.Contains(filter) ||
-                                 bp.CardName.Contains(filter) ||
-                                 bp.City.Contains(filter) ||
-                                 bp.Country.Contains(filter));
+                    .Where(bp => bp.CardCode.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                 bp.CardName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                 bp.City.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                 bp.Country.Contains(filter, StringComparison.OrdinalIgnoreCase));
             }
 
             var totalCount = businessPartners.Count();
