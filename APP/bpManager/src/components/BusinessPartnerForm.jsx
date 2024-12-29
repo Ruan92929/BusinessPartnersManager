@@ -26,6 +26,10 @@ const BusinessPartnerForm = ({ partner, onClose, onSave }) => {
     setFormData({ ...formData, [name]: value });
   };
 
+  const canSave = () => {
+    return formData.cardName && formData.city && formData.country;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -75,7 +79,7 @@ const BusinessPartnerForm = ({ partner, onClose, onSave }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose} color="primary">Cancelar</Button>
-        <Button onClick={handleSubmit} color="primary">{partner ? "Salvar" : "Criar"}</Button>
+        <Button onClick={handleSubmit} disabled={!canSave()} color="primary">{partner ? "Salvar" : "Criar"}</Button>
       </DialogActions>
     </Dialog>
   );
