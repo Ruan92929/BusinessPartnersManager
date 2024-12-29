@@ -61,6 +61,7 @@ const BusinessPartnerForm = ({ partner, onClose, onSave }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          disabled={!!partner}
         />
         <TextField
           label="País"
@@ -69,6 +70,7 @@ const BusinessPartnerForm = ({ partner, onClose, onSave }) => {
           onChange={handleChange}
           fullWidth
           margin="normal"
+          disabled={!!partner}
         />
       </DialogContent>
       <DialogActions>
