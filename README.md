@@ -93,13 +93,8 @@ O frontend é construído com **React** e utiliza **Material-UI** para renderiza
      - **URL**: `http://localhost:3000`
 
 3. **Configuração do Backend no Frontend**:
-   O frontend está configurado para se comunicar com a API local, então ele usará a URL `http://localhost:5036` para fazer as requisições ao backend (ou a URL HTTPS correspondente, dependendo da configuração).
+   O frontend está configurado para se comunicar com a API local, então ele usará a URL `http://localhost:5036](https://localhost:7178` para fazer as requisições ao backend (ou a URL HTTPS correspondente, dependendo da configuração).
 
-### Configuração Adicional
-
-- Se você precisar modificar a URL da API no frontend, localize o arquivo de configuração (geralmente no `.env` ou onde as variáveis de ambiente são definidas) e ajuste a URL conforme necessário.
-  
-- Para produção, o frontend e a API podem ser configurados com diferentes URLs de servidor, dependendo do seu ambiente de hospedagem.
 
 
 
