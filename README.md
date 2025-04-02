@@ -1,4 +1,4 @@
-# FullStackTest
+# BusinessPartnersManager
 
 Este é um projeto Full Stack que envolve uma API backend construída com **ASP.NET Core** e um frontend desenvolvido com **React** e **Material-UI**. O projeto permite a manipulação de dados de parceiros de negócios (Business Partners), incluindo operações de listagem, criação, atualização e exclusão.
 
